@@ -1,3 +1,4 @@
+import torch
 from torch import nn
 
 
@@ -52,4 +53,10 @@ class MobileNetV1(nn.Module):
 
 
 def mobilenet_v1(pretrained=False, **kwargs):
-    return MobileNetV1()
+    model = MobileNetV1()
+
+    if pretrained:
+        state_dict = torch.load('./checkpoints/mobilenet-v1_mlperf.pth')
+        model.load_state_dict(state_dict['state_dict'], strict=True)
+
+    return model
